@@ -21,31 +21,30 @@ namespace FAQ_app.Controllers
         }
 
         [Route("topic/{topicName}")]
-        public IActionResult C(string topicName)
+        public IActionResult C(string topicName, string category)
         {
-            var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
+            var faqList = DataStore.FAQList;
+
+            if (topicName != null && category != null) 
+            {
+                 faqList = DataStore.FAQList.Where(t => t.Topic == topicName && t.Category == category).ToList();
+            }
+            else if(topicName == null && category != null)
+            {
+                faqList = DataStore.FAQList.Where(t => t.Category == category).ToList();
+            }
+            else if (topicName != null && category == null)
+            {
+                faqList = DataStore.FAQList.Where(t => t.Topic == topicName ).ToList();
+            }
+
+
             ViewData["TopicName"] = topicName;
+            ViewData["Category"] = category;
 
             return View(faqList);
         }
 
-        //[Route("topic/{topicName}")]
-        //public IActionResult JavaScript(string topicName)
-        //{
-        //    var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
-        //    ViewData["TopicName"] = topicName;
-
-        //    return View(faqList);
-        //}
-
-        //[Route("topic/{topicName}")]
-        //public IActionResult BootStrap(string topicName)
-        //{
-        //    var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
-        //    ViewData["TopicName"] = topicName;
-
-        //    return View(faqList);
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
