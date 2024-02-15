@@ -19,11 +19,33 @@ namespace FAQ_app.Controllers
             var faqList = DataStore.FAQList;
             return View(faqList);
         }
-        [Route("custom-privacy-url")]
-        public IActionResult Privacy()
+
+        [Route("topic/{topicName}")]
+        public IActionResult C(string topicName)
         {
-            return View();
+            var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
+            ViewData["TopicName"] = topicName;
+
+            return View(faqList);
         }
+
+        //[Route("topic/{topicName}")]
+        //public IActionResult JavaScript(string topicName)
+        //{
+        //    var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
+        //    ViewData["TopicName"] = topicName;
+
+        //    return View(faqList);
+        //}
+
+        //[Route("topic/{topicName}")]
+        //public IActionResult BootStrap(string topicName)
+        //{
+        //    var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
+        //    ViewData["TopicName"] = topicName;
+
+        //    return View(faqList);
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
