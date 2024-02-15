@@ -2,7 +2,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    @foreach (var faqItem in Model)
+    {
+        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 10px;">
+            <strong> @faqItem.Question </strong> &nbsp; &nbsp;
+            @faqItem.Answer <br />
+
+            <div style="display:flex; margin-top: 10px; justify-content:space-between; padding:10px">
+                <div>
+                    <strong>Topic:</strong>&nbsp; @faqItem.Topic <br />
+                </div>
+                <div>
+                    <strong>Category:</strong>&nbsp; @faqItem.Category <br />
+                </div>
+                
+            </div>
+
+        </div>
+    }
 </div>
+

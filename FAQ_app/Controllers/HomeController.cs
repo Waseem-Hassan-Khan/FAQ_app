@@ -1,4 +1,5 @@
 using FAQ_app.Models;
+using FAQ_app.Store;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,9 +16,10 @@ namespace FAQ_app.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var faqList = DataStore.FAQList;
+            return View(faqList);
         }
-
+        [Route("custom-privacy-url")]
         public IActionResult Privacy()
         {
             return View();
