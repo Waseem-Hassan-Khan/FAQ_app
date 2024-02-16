@@ -1,55 +1,56 @@
-using FAQ_app.Models;
 using FAQ_app.Store;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace FAQ_app.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
+        [Route("/")]
+        public IActionResult Index(string category)
         {
             var faqList = DataStore.FAQList;
+
+            ViewData["Category"] = category;
             return View(faqList);
         }
 
+
         [Route("topic/{topicName}")]
+        [Route("/category/{category}")]
+        [Route("topic/{topicName}/category/{category}")]
         public IActionResult C(string topicName, string category)
         {
-            var faqList = DataStore.FAQList;
+            var nfaqList = DataStore.FAQList;
 
-            if (topicName != null && category != null) 
+            if (!string.IsNullOrEmpty(topicName) && string.IsNullOrEmpty(category))
             {
-                 faqList = DataStore.FAQList.Where(t => t.Topic == topicName && t.Category == category).ToList();
-            }
-            else if(topicName == null && category != null)
-            {
-                faqList = DataStore.FAQList.Where(t => t.Category == category).ToList();
-            }
-            else if (topicName != null && category == null)
-            {
-                faqList = DataStore.FAQList.Where(t => t.Topic == topicName ).ToList();
+                var faqList = DataStore.FAQList.Where(t => t.Topic == topicName).ToList();
+                return View(faqList);
             }
 
+            if (!string.IsNullOrEmpty(category) && string.IsNullOrEmpty(topicName))
+            {
+                var faqList = DataStore.FAQList.Where(t => t.Category == category).ToList();
+                return View(faqList);
+            }
+
+            if (!string.IsNullOrEmpty(category) && string.IsNullOrEmpty(topicName))
+            {
+                var faqList = DataStore.FAQList.Where(t => t.Category == category).ToList();
+                return View(faqList);
+            }
+
+            if (!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(topicName))
+            {
+                var faqList = DataStore.FAQList.Where(t => t.Category == category&& t.Topic == topicName).ToList();
+                category = null;
+                return View(faqList);
+            }
 
             ViewData["TopicName"] = topicName;
             ViewData["Category"] = category;
 
-            return View(faqList);
-        }
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(nfaqList);
         }
     }
 }

@@ -74,13 +74,27 @@
     <div class="container">
         <div class="sidebar">
             <ul class="list-group">
-                <li class="list-group-item active" data-target="general">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="C" asp-route-topicName="JavaScript" asp-route-category="General">
-                        General</a> </li>
+                <li class="list-group-item" data-target="general">
+                    <a class="nav-link text-dark"
+                       asp-area=""
+                       asp-controller="Home"
+                       asp-action="C"
+                       asp-route-topicName="@ViewContext.RouteData.Values["topicName"]"
+                       asp-route-category="General">
+                        General
+                    </a>
+                </li>
 
-                <li class="list-group-item" data-target="history"> 
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="C" asp-route-topicName="JavaScript" asp-route-category="History">
-                        History</a></li>
+                <li class="list-group-item" data-target="history">
+                    <a class="nav-link text-dark"
+                       asp-area=""
+                       asp-controller="Home"
+                       asp-action="C"
+                       asp-route-topicName="@ViewContext.RouteData.Values["topicName"]"
+                       asp-route-category="History">
+                        History
+                    </a>
+                </li>
             </ul>
         </div>
 
